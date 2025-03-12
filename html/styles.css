@@ -27,24 +27,34 @@
     box-sizing: border-box;
 }
 
+/* 修改基础配色 */
+:root {
+    --primary-color: #2A3F54;
+    --secondary-color: #4A90E2;
+    --accent-color: #00C1D4;
+    --background-color: #F0F2F5;
+    --text-primary: #2C3E50;
+    --text-secondary: #34495E;
+    --gradient-start: #2A3F54;
+    --gradient-mid: #4A90E2;
+    --gradient-end: #00C1D4;
+}
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    background-color: #f5f5f5;
-    color: #333;
-    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
 }
 
 header {
-    background: linear-gradient(-45deg, #1c4f8c, #2d6dad, #1a4a82, #2565a0);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
+    background: linear-gradient(135deg, #1a2b4b, #2a4b8d);
+    padding: 2rem 1rem;
     position: relative;
     overflow: hidden;
-    color: white;
-    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 header::before {
@@ -53,42 +63,113 @@ header::before {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect width="1" height="1" fill="rgba(255,255,255,0.05)"/></svg>');
-    opacity: 0.1;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent,
+        rgba(74, 144, 226, 0.5),
+        rgba(0, 193, 212, 0.7),
+        rgba(74, 144, 226, 0.5),
+        transparent
+    );
 }
 
-.tabs {
-    list-style: none;
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+header h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        transparent,
+        #4A90E2,
+        #00C1D4,
+        #4A90E2,
+        transparent
+    );
+}
+
+nav {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
-    background-color: #f8f8f8;
+}
+
+.tabs {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
     padding: 0.5rem;
-    border-bottom: 2px solid #1c4f8c;
-    position: relative;
-    z-index: 1;
+    display: inline-flex;
+    gap: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tab {
-    color: #333;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
     font-weight: 500;
-    padding: 0.8rem 1.5rem;
-    margin: 0 0.5rem;
-    border-radius: 4px 4px 0 0;
-    text-decoration: none;
-    cursor: pointer;
+    letter-spacing: 0.5px;
     transition: all 0.3s ease;
     position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
 }
 
 .tab:hover {
-    background-color: rgba(28, 79, 140, 0.1);
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .tab.active {
-    background-color: #1c4f8c;
-    color: white;
+    background: linear-gradient(135deg, #4A90E2, #00C1D4);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+    animation: glow 2s infinite;
+}
+
+.tab::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transform: translateX(-100%);
+    transition: 0.5s;
+}
+
+.tab:hover::before {
+    transform: translateX(100%);
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.5); }
+    100% { box-shadow: 0 0 5px rgba(74, 144, 226, 0.3); }
+}
+
+.tab.active {
+    animation: glow 2s infinite;
 }
 
 /* 添加科技感的装饰线条 */
@@ -141,16 +222,23 @@ h2 {
     margin-bottom: 1rem;
 }
 
-/* 内容样式 */
-.content-section {
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* 修改内容标题样式 */
+.content-section h3 {
+    color: #eee;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* 如果有其他 h2, h3 标题也需要修改 */
+h2, h3 {
+    color: #eee;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 保持描述文字的颜色不变 */
 .description {
-    color: #666;
+    color: #ddd;
     margin-bottom: 20px;
     line-height: 1.6;
 }
@@ -166,10 +254,13 @@ h2 {
     border-bottom: 1px solid #e5e5e5;
     padding: 15px 20px;
     margin-bottom: 0;
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
+    border-left: 4px solid var(--accent-color);
+    box-shadow: 0 2px 15px rgba(42, 63, 84, 0.03);
 }
 
 .copyright-item::before {
@@ -190,11 +281,12 @@ h2 {
 
 .copyright-item:hover {
     transform: translateX(5px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(42, 63, 84, 0.1);
+    border-left-color: var(--secondary-color);
 }
 
 .copyright-item h4 {
-    color: #1c4f8c;
+    color: var(--primary-color);
     font-size: 16px;
     display: flex;
     justify-content: space-between;
@@ -254,14 +346,14 @@ h2 {
 
 .service-card {
     padding: 20px;
-    border: 1px solid #eee;
+    border: 1px solid rgba(74, 144, 226, 0.1);
     border-radius: 6px;
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(5px);
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(28, 79, 140, 0.2);
+    box-shadow: 0 4px 20px rgba(42, 63, 84, 0.05);
 }
 
 .service-card::before {
@@ -281,8 +373,9 @@ h2 {
 }
 
 .service-card:hover {
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(42, 63, 84, 0.1);
+    border-color: var(--accent-color);
 }
 
 .service-details {
@@ -303,7 +396,8 @@ h2 {
 
 .location-card {
     padding: 20px;
-    background: #f8f9fa;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
     border-radius: 6px;
     border: 1px solid #eee;
 }
@@ -405,9 +499,11 @@ h2 {
 .search-box {
     margin-bottom: 20px;
     padding: 15px;
-    background: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(135deg, 
+        rgba(42, 63, 84, 0.02) 0%,
+        rgba(74, 144, 226, 0.02) 100%);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(28, 79, 140, 0.2);
+    border: 1px solid rgba(74, 144, 226, 0.1);
 }
 
 .search-form {
@@ -425,13 +521,15 @@ h2 {
 
 .search-form button {
     padding: 8px 20px;
-    background: #1c4f8c;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 10px rgba(74, 144, 226, 0.2);
+    transition: all 0.3s ease;
 }
 
 .search-form button::before {
@@ -454,9 +552,16 @@ h2 {
     left: 100%;
 }
 
+.search-form button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
 /* 页脚样式 */
 .site-footer {
-    background: linear-gradient(to bottom, #2d6dad, #1c4f8c);
+    background: linear-gradient(to bottom,
+        var(--primary-color),
+        var(--gradient-start));
     color: #fff;
     padding: 40px 0 0;
     margin-top: 40px;
@@ -601,4 +706,14 @@ h2 {
     .qrcode-container {
         justify-content: center;
     }
+}
+
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
 } 

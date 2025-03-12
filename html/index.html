@@ -6,18 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>版权保护官方网站</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
+    <canvas id="bg-canvas"></canvas>
     <header>
         <div class="tech-lines"></div>
         <h1>版权保护中心</h1>
         <nav>
-            <ul class="tabs">
-                <li><a href="#copyright" class="tab active" data-tab="copyright">版权信息</a></li>
-                <li><a href="#services" class="tab" data-tab="services">服务内容</a></li>
-                <li><a href="#contact" class="tab" data-tab="contact">联系我们</a></li>
-            </ul>
+            <div class="tabs">
+                <a href="#copyright" class="tab active" data-tab="copyright">版权信息</a>
+                <a href="#services" class="tab" data-tab="services">服务内容</a>
+                <a href="#contact" class="tab" data-tab="contact">联系我们</a>
+            </div>
         </nav>
     </header>
 
@@ -88,6 +90,7 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="background.js"></script>
 </body>
 
 </html>

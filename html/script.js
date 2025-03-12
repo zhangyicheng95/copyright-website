@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (targetContent) {
                 targetContent.classList.add('active');
                 // 平滑滚动到内容区域
-                targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
             // 加载对应的内容
