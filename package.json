@@ -1,0 +1,7 @@
+{
+    "type": "module",
+    "scripts": {
+        "init-db": "node service/db/init.js",
+        "start": "node service/server.js"
+    }
+}
