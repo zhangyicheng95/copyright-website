@@ -53,6 +53,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
+    // 添加全局变量
+    let currentPage = 1;
+    let pageSize = 10;
+    let allCopyrightData = [];
+
     // 渲染内容的函数
     function renderContent(tabId, data) {
         const contentContainer = document.getElementById(`${tabId}-content`);
@@ -60,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(data);
         switch (tabId) {
             case 'copyright':
+                // 保存数据到全局变量
+                allCopyrightData = data.items;
                 html = `
                     <div class="content-section">
                         <h3>${data.title}</h3>
@@ -92,40 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             </form>
                         </div>
 
-                        <div class="copyright-list">
-                            ${data.items.map(item => `
-                                <div class="copyright-item">
-                                    <h4>
-                                        ${item.title}
-                                        <span class="reg-num">${item.regNum}</span>
-                                    </h4>
-                                    <p>${item.content}</p>
-                                    <div class="item-meta">
-                                        <div class="meta-item">
-                                            <span class="meta-label">登记日期：</span>
-                                            <span>${item.date}</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">版权所有：</span>
-                                            <span>${item.owner}</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">创作年份：</span>
-                                            <span>${item.creationYear}年</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">保护期限：</span>
-                                            <span>至${item.protectionPeriod}</span>
-                                        </div>
-                                        <div class="meta-item">
-                                            <span class="meta-label">状态：</span>
-                                            <span class="status ${item.status === '有效' ? 'valid' : item.status === '审核中' ? 'pending' : 'expired'}">
-                                                ${item.status}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            `).join('')}
+                        <div id="copyrightList" class="copyright-list">
+                            ${renderCopyrightItems(data.items)}
                         </div>
 
                         <div class="pagination">
@@ -189,18 +164,123 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 添加分页功能
-    function initPagination(items, pageSize = 10) {
+    // 添加渲染版权列表项的函数
+    function renderCopyrightItems(items) {
+        return items.map(item => `
+            <div class="copyright-item">
+                <h4>
+                    ${item.title}
+                    <span class="reg-num">${item.regNum}</span>
+                </h4>
+                <p>${item.content}</p>
+                <div class="item-meta">
+                    <div class="meta-item">
+                        <span class="meta-label">登记日期：</span>
+                        <span>${item.date}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">版权所有：</span>
+                        <span>${item.owner}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">创作年份：</span>
+                        <span>${item.creationYear}年</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">保护期限：</span>
+                        <span>至${item.protectionPeriod}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">状态：</span>
+                        <span class="status ${item.status === '有效' ? 'valid' : item.status === '审核中' ? 'pending' : 'expired'}">
+                            ${item.status}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // 修改分页初始化函数
+    function initPagination(items) {
         const totalPages = Math.ceil(items.length / pageSize);
         const pagination = document.querySelector('.pagination');
 
         let html = '';
         for (let i = 1; i <= totalPages; i++) {
-            html += `<button class="${i === 1 ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
         }
 
         pagination.innerHTML = html;
+        showCurrentPageItems(items);
     }
+
+    // 添加页面切换函数
+    window.goToPage = function (page) {
+        currentPage = page;
+        const buttons = document.querySelectorAll('.pagination button');
+        buttons.forEach(button => {
+            button.classList.remove('active');
+            if (parseInt(button.textContent) === page) {
+                button.classList.add('active');
+            }
+        });
+
+        // 获取当前显示的数据（可能是筛选后的）
+        const copyrightList = document.getElementById('copyrightList');
+        const items = copyrightList.querySelectorAll('.copyright-item').length > 0
+            ? allCopyrightData.filter(item => {
+                const searchInput = document.getElementById('searchInput').value.toLowerCase();
+                const typeFilter = document.getElementById('typeFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+
+                const matchSearch = !searchInput ||
+                    item.title.toLowerCase().includes(searchInput) ||
+                    item.regNum.toLowerCase().includes(searchInput);
+                const matchType = !typeFilter || item.type === typeFilter;
+                const matchStatus = !statusFilter || item.status === statusFilter;
+
+                return matchSearch && matchType && matchStatus;
+            })
+            : allCopyrightData;
+
+        showCurrentPageItems(items);
+    };
+
+    // 添加显示当前页内容的函数
+    function showCurrentPageItems(items) {
+        const start = (currentPage - 1) * pageSize;
+        const end = start + pageSize;
+        const pageItems = items.slice(start, end);
+
+        const copyrightList = document.getElementById('copyrightList');
+        copyrightList.innerHTML = pageItems.length > 0
+            ? renderCopyrightItems(pageItems)
+            : '<div class="no-results">未找到匹配的版权信息</div>';
+    }
+
+    // 修改筛选函数
+    function filterCopyrights() {
+        const searchInput = document.getElementById('searchInput').value.toLowerCase();
+        const typeFilter = document.getElementById('typeFilter').value;
+        const statusFilter = document.getElementById('statusFilter').value;
+
+        const filteredItems = allCopyrightData.filter(item => {
+            const matchSearch = !searchInput ||
+                item.title.toLowerCase().includes(searchInput) ||
+                item.regNum.toLowerCase().includes(searchInput);
+            const matchType = !typeFilter || item.type === typeFilter;
+            const matchStatus = !statusFilter || item.status === statusFilter;
+
+            return matchSearch && matchType && matchStatus;
+        });
+
+        currentPage = 1; // 重置到第一页
+        initPagination(filteredItems);
+    }
+
+    // 将 filterCopyrights 添加到 window 对象
+    window.filterCopyrights = filterCopyrights;
 
     // 初始加载第一个标签页的内容
     loadContent('copyright');
