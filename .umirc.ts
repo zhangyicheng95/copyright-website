@@ -35,6 +35,8 @@ export default defineConfig({
         { path: '/guide', component: './Guide/index.tsx' },
         { path: '/service', component: './Service/index.tsx' },
         { path: '/copyright', component: './Copyright/index.tsx' },
+        { path: '/detial/*', component: './Detial/index.tsx' },
+        { path: '/detialInfo/*', component: './DetialInfo/index.tsx' },
       ],
       layout: false,
     },

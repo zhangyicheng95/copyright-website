@@ -8,8 +8,12 @@ import ActivityPage from './Activity/index';
 import GuidePage from './Guide/index';
 import ServicePage from './Service/index';
 import CopyrightPage from './Copyright/index';
+import DetialPage from './Detial/index';
+import DetialInfoPage from './DetialInfo/index';
 import BasicLayout from '@/layout';
 import { routes } from '@/layout/routes';
+import { ConfigProvider } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 
 const elementMap: any = {
     '/home': <HomePage />,
@@ -23,26 +27,36 @@ const elementMap: any = {
 const IndexRouter = () => {
 
     return (
-        <BasicLayout>
-            <Routes>
-                <Route
-                    path="/"
-                    element={
-                        <HomePage />
+        <ConfigProvider locale={zhCN}>
+            <BasicLayout>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <HomePage />
+                        }
+                    />
+                    {
+                        routes.map((item) => {
+                            if (!elementMap[item.path]) return null;
+                            return <Route
+                                key={item.path}
+                                path={item.path}
+                                element={elementMap[item.path]}
+                            />
+                        })
                     }
-                />
-                {
-                    routes.map((item) => {
-                        if (!elementMap[item.path]) return null;
-                        return <Route
-                            key={item.path}
-                            path={item.path}
-                            element={elementMap[item.path]}
-                        />
-                    })
-                }
-            </Routes>
-        </BasicLayout>
+                    <Route
+                        path="/detial/*"
+                        element={<DetialPage />}
+                    />
+                    <Route
+                        path="/detialInfo/*"
+                        element={<DetialInfoPage />}
+                    />
+                </Routes>
+            </BasicLayout>
+        </ConfigProvider>
     );
 };
 export default IndexRouter;

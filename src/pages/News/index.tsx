@@ -5,7 +5,7 @@ import styles from './index.less';
 const News: React.FC = () => {
 
     return (
-        <div className={styles.newsContainer}>
+        <div className={`commonPageStyle ${styles.newsContainer}`}>
 
         </div>
     );

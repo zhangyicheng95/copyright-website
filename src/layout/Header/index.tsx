@@ -21,8 +21,8 @@ const Header: React.FC<Props> = (props: any) => {
     return <div className={`flex-box ${styles.header}`}>
         <div className="flex-box-center header-left">
             <img src={guohui} alt="guohui" className='header-left-guohui' />
-            <img src={title} alt="title" className='header-left-title' />
-            {/* <div className="header-left-title">版权协会</div> */}
+            {/* <img src={title} alt="title" className='header-left-title' /> */}
+            <div className="header-left-title">陕西省版权协会</div>
         </div>
         <div className="flex-box-column header-right">
             <div className="flex-box header-right-search">
@@ -33,8 +33,6 @@ const Header: React.FC<Props> = (props: any) => {
             </div>
             <div className="flex-box header-right-tab">
                 {routes.map((item: any) => {
-                    console.log(item.path, pathname);
-
                     return <div
                         className="header-right-tab-item"
                         key={item.path}

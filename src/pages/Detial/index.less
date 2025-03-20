@@ -1,0 +1,123 @@
+.detialContainer {
+    display: flex;
+    padding: 20px;
+
+    :global {
+
+        .detialLeft {
+            width: 240px;
+            margin-right: 20px;
+            background-color: #f8fbff;
+
+            .detialLeftTitle {
+                font-size: 32px;
+                line-height: 40px;
+                color: #fff;
+                font-weight: bold;
+                padding: 15px 20px;
+                background: url(/images/titlebg.jpg) right bottom no-repeat #1f68ba;
+                overflow: hidden;
+                padding: 40px;
+            }
+
+            .menuList {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                .menuItem {
+                    padding: 15px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    border-bottom: 1px solid #f0f0f0;
+                    transition: all 0.3s;
+
+                    &:hover {
+                        color: #1890ff;
+                        background-color: #f5f5f5;
+                    }
+
+                    &.active {
+                        color: #1890ff;
+                        background-color: #e6f7ff;
+                        border-right: 3px solid #1890ff;
+                    }
+                }
+            }
+        }
+
+        .detialRight {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+
+            .newsTitle {
+                font-size: 18px;
+                font-weight: bold;
+                color: #333;
+                padding: 10px 0;
+                border-bottom: 2px solid #1890ff;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+
+                .titleIcon {
+                    width: 4px;
+                    height: 16px;
+                    background-color: #1890ff;
+                    margin-right: 10px;
+                    display: inline-block;
+                }
+            }
+
+            .newsList {
+                .newsItem {
+                    padding: 16px 0;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    border-bottom: 1px solid #f0f0f0;
+
+                    &:hover {
+                        .newsText {
+                            color: #1890ff;
+                        }
+                    }
+
+                    .newsContent {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+
+                        .newsPoint {
+                            color: #1890ff;
+                            margin-right: 8px;
+                            font-size: 20px;
+                            line-height: 1;
+                        }
+
+                        .newsText {
+                            color: #333;
+                            font-size: 16px;
+                            transition: color 0.3s;
+                        }
+                    }
+
+                    .newsDate {
+                        color: #999;
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+
+        .paginationWrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+
+           
+        }
+    }
+}

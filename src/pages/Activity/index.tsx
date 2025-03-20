@@ -5,7 +5,7 @@ import styles from './index.less';
 const Activity: React.FC = () => {
 
     return (
-        <div className={styles.activityContainer}>
+        <div className={`commonPageStyle ${styles.activityContainer}`}>
 
         </div>
     );

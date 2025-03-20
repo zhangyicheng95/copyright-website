@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Carousel, Row, Col, Card, List, Tabs } from 'antd';
 import styles from './index.less';
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
     const [headerData, setHeaderData] = useState({
@@ -73,7 +74,7 @@ const Home: React.FC = () => {
     ]);
 
     return (
-        <div className={styles.homeContainer}>
+        <div className={`commonPageStyle ${styles.homeContainer}`}>
             {/* 添加顶部大标题新闻 */}
             <div className="top-news">
                 <h1 className="main-title" onClick={() => window.open(headerData.url, '_blank')}>
@@ -402,28 +403,32 @@ const Home: React.FC = () => {
 
 // 新闻列表组件
 const NewsList: React.FC<{ type: string }> = ({ type }) => {
+    const navigate = useNavigate();
     return (
         <List
             className="news-list"
             size="small"
             dataSource={[
                 {
+                    id: 1,
                     title: '多地推动金融加力支持民营企业发展',
                     time: '2025-03-19'
                 },
                 {
+                    id: 2,
                     title: '保持发展定力 增强发展信心（促进民营经济高质量发展）',
                     time: '2025-03-19'
                 },
                 {
+                    id: 3,
                     title: '“我国消费市场蕴含巨大发展机遇”',
                     time: '2025-03-19'
                 }
             ]}
             renderItem={item => (
-                <List.Item className='flex-box-justify-between'>
-                    <a href="#">· {item.title}</a>
-                    <a href="#">{item.time}</a>
+                <List.Item className='flex-box-justify-between' onClick={() => navigate(`/detial/?newsType=${type}`)}>
+                    <a>· {item.title}</a>
+                    <a>{item.time}</a>
                 </List.Item>
             )}
         />

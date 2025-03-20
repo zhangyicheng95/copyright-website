@@ -5,7 +5,7 @@ import styles from './index.less';
 const About: React.FC = () => {
 
     return (
-        <div className={styles.aboutContainer}>
+        <div className={`commonPageStyle ${styles.aboutContainer}`}>
 
         </div>
     );

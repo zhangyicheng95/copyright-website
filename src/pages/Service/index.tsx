@@ -5,7 +5,7 @@ import styles from './index.less';
 const Service: React.FC = () => {
 
     return (
-        <div className={styles.serviceContainer}>
+        <div className={`commonPageStyle ${styles.serviceContainer}`}>
 
         </div>
     );

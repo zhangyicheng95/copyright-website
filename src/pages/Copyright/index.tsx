@@ -5,7 +5,7 @@ import styles from './index.less';
 const Copyright: React.FC = () => {
 
     return (
-        <div className={styles.copyrightContainer}>
+        <div className={`commonPageStyle ${styles.copyrightContainer}`}>
 
         </div>
     );
