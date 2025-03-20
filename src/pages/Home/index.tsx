@@ -468,49 +468,49 @@ const ServiceList: React.FC<{ type: string }> = ({ type }) => {
     return <div className="service-grid">
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-1.png" alt="就业创业" />
+                <img src="icons/service-1.png" alt="就业创业" />
             </div>
             <span>就业创业</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-2.png" alt="抵押质押" />
+                <img src="icons/service-2.png" alt="抵押质押" />
             </div>
             <span>抵押质押</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-3.png" alt="职业资格" />
+                <img src="icons/service-3.png" alt="职业资格" />
             </div>
             <span>职业资格</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-4.png" alt="优待抚恤" />
+                <img src="icons/service-4.png" alt="优待抚恤" />
             </div>
             <span>优待抚恤</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-5.png" alt="规划建设" />
+                <img src="icons/service-5.png" alt="规划建设" />
             </div>
             <span>规划建设</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-6.png" alt="证件办理" />
+                <img src="icons/service-6.png" alt="证件办理" />
             </div>
             <span>证件办理</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-7.png" alt="交通出行" />
+                <img src="icons/service-7.png" alt="交通出行" />
             </div>
             <span>交通出行</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="/icons/service-8.png" alt="旅游观光" />
+                <img src="icons/service-8.png" alt="旅游观光" />
             </div>
             <span>旅游观光</span>
         </div>
@@ -521,25 +521,25 @@ const MinServiceList: React.FC<{ type: string }> = ({ type }) => {
     return <div className="min-service-grid">
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="/icons/min-1.png" alt="教育服务" />
+                <img src="icons/min-1.png" alt="教育服务" />
             </div>
             <span>教育服务</span>
         </div>
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="/icons/min-2.png" alt="住房服务" />
+                <img src="icons/min-2.png" alt="住房服务" />
             </div>
             <span>住房服务</span>
         </div>
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="/icons/min-3.png" alt="医疗服务" />
+                <img src="icons/min-3.png" alt="医疗服务" />
             </div>
             <span>医疗服务</span>
         </div>
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="/icons/min-4.png" alt="社保服务" />
+                <img src="icons/min-4.png" alt="社保服务" />
             </div>
             <span>社保服务</span>
         </div>

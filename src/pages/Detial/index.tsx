@@ -72,7 +72,7 @@ const Detial: React.FC = () => {
     };
 
     const handleNewsClick = (id: string) => {
-        window.open(`${window.location.origin}/#/detialInfo/?newsType=${newsType}&type=${activeMenu}&id=${id}`, '_blank');
+        window.open(`${window.location.origin}${window.location.pathname}#/detialInfo/?newsType=${newsType}&type=${activeMenu}&id=${id}`, '_blank');
     };
 
     const handlePageChange = (page: number) => {
