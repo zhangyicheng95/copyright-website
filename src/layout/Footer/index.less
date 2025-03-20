@@ -1,0 +1,54 @@
+.siteFooter {
+    background: #125db2;
+    padding: 20px 0;
+    color: rgba(255, 255, 255, .8);
+    position: relative;
+
+    :global {
+        .footer-left {
+            position: absolute;
+            left: 16px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+
+            .main-info {
+                margin-bottom: 15px;
+
+                span {
+                    margin: 0 10px;
+                }
+            }
+
+            .secondary-info {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 8px;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                span {
+                    position: relative;
+
+                    &:not(:last-child)::after {
+                        content: '';
+                        position: absolute;
+                        right: -8px;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 1px;
+                        height: 12px;
+                        background-color: #ddd;
+                    }
+                }
+            }
+        }
+    }
+}

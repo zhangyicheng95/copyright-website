@@ -1,0 +1,92 @@
+.header {
+    height: 280px;
+    min-height: 280px;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    background-image: url('@/assets/images/headerbg.png');
+    background-repeat: no-repeat;
+    background-position: bottom;
+    gap: 80px;
+
+    :global {
+        .header-left {
+            flex-direction: column;
+            height: 100%;
+            padding: 0 40px;
+            gap: 16px;
+
+            &-guohui {
+                height: 85px;
+            }
+
+            &-title {
+                height: 80px;
+            }
+
+            // &-title {
+            //     font-size: 64px;
+            // }
+        }
+
+        .header-right {
+            align-items: flex-end;
+            height: 100%;
+            flex: 1;
+            position: relative;
+
+            &-search {
+                width: 448px;
+                height: 46px;
+                border: 1px solid #111;
+                border-radius: 23px;
+                margin: 40px;
+                background-color: #fff;
+                overflow: hidden;
+
+                .ant-input {
+                    height: 100%;
+                    background-color: transparent;
+                    border: none;
+                    border-radius: 0;
+                    // border-right: 1px solid #111;
+                }
+
+
+                &-icon {
+                    width: 48px;
+                    height: 100%;
+                    cursor: pointer;
+                    // color: #fff;
+                }
+            }
+
+            &-tab {
+                position: absolute;
+                top: 50%;
+                background-image: url('@/assets/images/navbg.png');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                min-width: 800px;
+                max-width: 960px;
+                height: 75px;
+                padding: 0 40px;
+                font-size: 24px;
+                gap: 16px;
+
+                &-item {
+                    color: #fff;
+                    cursor: pointer;
+                    padding: 12px 0;
+                    transition: all 0.3s ease;
+                    border-bottom: 4px solid transparent;
+                }
+
+                &-item:hover {
+                    color: @primary-color;
+                    border-bottom-color: #fff;
+                }
+            }
+        }
+    }
+}

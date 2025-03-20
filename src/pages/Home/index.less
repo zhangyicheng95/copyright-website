@@ -1,0 +1,659 @@
+.homeContainer {
+    max-width: 1420px;
+    margin: 0 auto;
+    background: left top repeat-x #fff;
+    border-radius: 15px 15px 0 0;
+    z-index: 100;
+    position: relative;
+    padding: 0 0 20px 29px;
+
+    :global {
+        .top-news {
+            padding: 20px;
+
+            .main-title {
+                font-size: 32px;
+                color: #f10000;
+                text-align: center;
+                margin-bottom: 20px;
+                font-weight: bold;
+
+                &:hover {
+                    color: #e74c3c;
+                }
+            }
+
+            .news-categories {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 20px;
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+
+                .category-item {
+                    flex: 1;
+                    padding: 0 15px;
+                    position: relative;
+
+                    &:not(:last-child)::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        height: 100%;
+                        width: 1px;
+                        background: #eee;
+                    }
+
+                    .category-title {
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: #125db2;
+                        margin-bottom: 10px;
+                        padding-left: 10px;
+                        border-left: 4px solid;
+
+                        &:hover {
+                            color: #1890ff;
+                        }
+                    }
+
+                    &.party .category-title {
+                        border-left-color: #c12c2c;
+                    }
+
+                    &.state .category-title {
+                        border-left-color: #1890ff;
+                    }
+
+                    &.province .category-title {
+                        border-left-color: #28a745;
+                    }
+
+                    .category-content {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+
+                        a {
+                            color: #666;
+                            line-height: 1.5;
+
+                            &:hover {
+                                color: #1890ff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        // 轮播图区域
+        .carousel-section {
+            margin-bottom: 20px;
+
+            // 添加头条标签样式
+            .headline-tag {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 2px solid #f0f0f0;
+                margin-bottom: 15px;
+
+                .tag-icon {
+                    background: #c12c2c;
+                    color: #fff;
+                    padding: 4px 8px;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    margin-right: 15px;
+                    font-weight: bold;
+                }
+
+                .headline-title {
+                    font-size: 18px;
+                    color: #333;
+                    flex: 1;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+
+                    &:hover {
+                        color: #c12c2c;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .carousel-item {
+                position: relative;
+                height: 400px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .carousel-content {
+                    position: relative;
+                    height: 100%;
+                }
+
+                .carousel-text {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    padding: 20px;
+                    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+
+                    h3 {
+                        color: #fff;
+                        font-size: 20px;
+                        margin-bottom: 10px;
+                        font-weight: bold;
+
+                        &:hover {
+                            color: #1890ff;
+                        }
+                    }
+
+                    p {
+                        color: rgba(255, 255, 255, 0.8);
+                        font-size: 14px;
+                        margin: 0;
+                        line-height: 1.5;
+                    }
+                }
+            }
+
+            // 轮播图指示器样式
+            .ant-carousel {
+                .slick-dots {
+                    bottom: 12px;
+
+                    li {
+                        button {
+                            width: 8px;
+                            height: 8px;
+                            border-radius: 50%;
+                            background: rgba(255, 255, 255, 0.5);
+                        }
+
+                        &.slick-active {
+                            button {
+                                background: #fff;
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        // 新闻区域通用样式
+        .news-section,
+        .gov-news {
+            margin-bottom: 20px;
+            background: #fff;
+
+            .ant-tabs-nav {
+                margin-bottom: 0;
+
+                .ant-tabs-tab {
+                    padding: 12px 20px;
+                    font-size: 16px;
+
+                    &.ant-tabs-tab-active {
+                        font-weight: bold;
+                    }
+                }
+            }
+
+            .news-list {
+                padding: 15px;
+
+                .ant-list-item {
+                    padding: 8px 0;
+                    border-bottom: 1px dashed #e8e8e8;
+
+                    a {
+                        color: #333;
+
+                        &:hover {
+                            color: #1890ff;
+                        }
+                    }
+                }
+            }
+        }
+
+        .image-carousel {
+            margin: 20px 0;
+
+            .carousel-banner {
+                height: 90px;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            // 自定义轮播图样式
+            .ant-carousel {
+                .slick-slide {
+                    height: 90px;
+                }
+
+                // 去掉默认内边距
+                .slick-list {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+        }
+
+        // 右侧卡片通用样式
+        .ant-card {
+            margin-bottom: 20px;
+
+            .ant-card-head-title {
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+
+        // 搜索历史
+        .search-history {
+            .ant-list-item {
+                padding: 8px 0;
+                cursor: pointer;
+
+                &:hover {
+                    color: #1890ff;
+                }
+            }
+        }
+
+        // 办事统计
+        .service-stats {
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+
+                .stats-item {
+                    text-align: center;
+
+                    .label {
+                        display: block;
+                        color: #666;
+                    }
+
+                    .number {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #1890ff;
+                    }
+                }
+            }
+        }
+
+        // 民生服务
+        .public-service {
+            .service-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+
+                .service-item {
+                    text-align: center;
+                    padding: 10px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background: #f5f5f5;
+                    }
+
+                    .icon {
+                        font-size: 24px;
+                        margin-bottom: 8px;
+                    }
+                }
+            }
+        }
+
+        .gov-info-section {
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+
+            .section-header {
+                margin-bottom: 20px;
+
+                .title {
+                    font-size: 24px;
+                    font-weight: bold;
+                    margin: 0;
+
+                    .text-blue {
+                        color: #1890ff;
+                    }
+
+                    .text-red {
+                        color: #ff4d4f;
+                    }
+                }
+            }
+
+            .info-category {
+                .category-title {
+                    font-size: 18px;
+                    color: #1890ff;
+                    margin-bottom: 20px;
+                    position: relative;
+                    padding-left: 12px;
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        width: 4px;
+                        height: 18px;
+                        background: #1890ff;
+                        border-radius: 2px;
+                    }
+                }
+
+                .info-category-right {
+                    background-color: #fff;
+                    color: #005bac;
+                    height: 48px;
+                    margin: 20px 50px;
+
+                    .info-category-right-text {
+                        flex-direction: column;
+                        flex: 1;
+
+                        .info-category-right-text-title {
+                            font-size: 20px;
+                            font-weight: bold;
+                        }
+
+                        .info-category-right-text-content {
+                            font-size: 14px;
+                            line-height: 18px;
+                            color: #a0a3aa;
+                            gap: 8px;
+                        }
+                    }
+                }
+
+                .info-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 20px;
+
+                    .info-item {
+                        display: flex;
+                        align-items: center;
+                        padding: 15px;
+                        background: #f7f7f7;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        transition: all 0.3s;
+
+                        &:hover {
+                            background: #e6f7ff;
+                            color: #1890ff;
+                            transform: translateY(-2px);
+                        }
+
+                        .icon {
+                            font-size: 24px;
+                            margin-right: 10px;
+                            color: #1890ff;
+
+                            &.compass {
+                                content: url('/icons/compass.png');
+                            }
+
+                            &.file-text {
+                                content: url('/icons/file-text.png');
+                            }
+
+                            &.file-done {
+                                content: url('/icons/file-done.png');
+                                vertical-align: middle;
+                            }
+
+                            &.calendar {
+                                content: url('/icons/calendar.png');
+                            }
+
+                            &.form {
+                                content: url('/icons/form.png');
+                            }
+
+                            &.folder {
+                                content: url('/icons/folder.png');
+                            }
+                        }
+
+                        span {
+                            font-size: 16px;
+                            color: #333;
+                        }
+                    }
+                }
+            }
+        }
+
+        .right-section {
+
+            .section-header {
+                margin-bottom: 20px;
+
+                .title {
+                    font-size: 24px;
+                    font-weight: bold;
+
+                    .text-blue {
+                        color: #1890ff;
+                    }
+
+                    .text-red {
+                        color: #ff4d4f;
+                    }
+                }
+            }
+
+            .service-nav {
+                display: flex;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #f0f0f0;
+
+                .nav-item {
+                    padding: 12px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    position: relative;
+                    color: #666;
+
+                    &.active {
+                        color: #1890ff;
+                        font-weight: bold;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -1px;
+                            left: 0;
+                            right: 0;
+                            height: 2px;
+                            background: #1890ff;
+                        }
+                    }
+
+                    &:hover {
+                        color: #1890ff;
+                    }
+                }
+            }
+
+            .service-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+                margin: 20px 0;
+
+                .service-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 15px 10px;
+                    background: #f7f7f7;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+
+                    &:hover {
+                        background: #e6f7ff;
+                        transform: translateY(-2px);
+                    }
+
+                    .icon-wrapper {
+                        width: 40px;
+                        height: 40px;
+                        margin-bottom: 8px;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+
+                    span {
+                        font-size: 14px;
+                        color: #333;
+                    }
+                }
+            }
+
+            .platform-section {
+                height: 130px;
+                gap: 12px;
+
+                .platform-banner {
+                    flex: 1;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    background: url(/images/service-bg-1.png) right bottom no-repeat #edf6ff !important;
+                    padding: 20px;
+
+                    img {
+                        width: 60px;
+                        height: 60px;
+                        margin-right: 15px;
+                    }
+
+                    .platform-info {
+                        h4 {
+                            font-size: 14px;
+                            color: #666;
+                            margin: 0 0 5px;
+                        }
+
+                        h3 {
+                            font-size: 18px;
+                            color: #333;
+                            margin: 0;
+                        }
+                    }
+                }
+
+                .stats-info {
+                    height: 100%;
+                    text-align: center;
+                    color: #1890ff;
+                    padding: 20px;
+                    font-size: 14px;
+                    cursor: pointer;
+                    background: url(/images/service-bg-2.jpg) right bottom no-repeat #edf6ff !important;
+                    writing-mode: vertical-lr;
+                    letter-spacing: 4px;
+                    line-height: 1;
+                    cursor: pointer;
+                    font-size: 16px;
+                    font-weight: bold;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+
+            .min-service-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 15px;
+                margin: 20px 0;
+
+                .min-service-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 15px 10px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+
+                    &:hover {
+                        background: #e6f7ff;
+                        transform: translateY(-2px);
+                    }
+
+                    .icon-wrapper {
+                        width: 56px;
+                        height: 56px;
+                        margin-bottom: 8px;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+
+                    span {
+                        font-size: 14px;
+                        color: #333;
+                    }
+                }
+            }
+        }
+
+        .gonyi-box {
+            .carousel-banner {
+                height: 220px;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
