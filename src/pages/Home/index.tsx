@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Carousel, Row, Col, Card, List, Tabs } from 'antd';
 import styles from './index.less';
 import { useNavigate } from 'react-router-dom';
+import zhengfulogo from '@/assets/images/red.png'
+import { getGovNews } from '@/services/api';
 
 const Home: React.FC = () => {
     const [headerData, setHeaderData] = useState({
@@ -14,11 +16,11 @@ const Home: React.FC = () => {
                 content: [
                     {
                         title: '习近平在贵州黔东南州考察调研',
-                        url: 'https://www.xinhuanet.com/'
+                        url: 'https://news.cyol.com/gb/articles/2025-03/18/content_qb6p2XIpdL.html'
                     },
                     {
                         title: '习近平：民族的特色，很古朴也很时尚',
-                        url: 'https://www.xinhuanet.com/'
+                        url: 'https://news.cnr.cn/native/gd/sz/20250318/t20250318_527104771.shtml'
                     }
                 ]
             },
@@ -28,11 +30,11 @@ const Home: React.FC = () => {
                 content: [
                     {
                         title: '国务院关于涉外知识产权纠纷处理的规定（全文）',
-                        url: 'https://www.xinhuanet.com/'
+                        url: 'https://news.qq.com/rain/a/20250319A07GPY00'
                     },
                     {
                         title: '中办国办关于进一步强化食品安全全链条监管的意见',
-                        url: 'https://www.xinhuanet.com/'
+                        url: 'https://news.ifeng.com/c/8hr3Mvu2bu2'
                     }
                 ]
             },
@@ -53,25 +55,46 @@ const Home: React.FC = () => {
         ]
     });
     const [hotTipData, setHotTipData] = useState({
-        title: '汪华东在濉溪县调研并宣讲全国两会精神时强调 扎实抓好"三农"工作',
-        url: 'https://www.xinhuanet.com/'
+        title: '习近平在贵州考察时强调，坚持以高质量发展统揽全局，在中国式现代化进程中展现贵州新风采。',
+        url: 'https://www.news.cn/politics/leaders/20250322/1c9953ab30b044a4a91ab5f2a5aa07b6/c.html'
     });
     const [firstCarouselData, setFirstCarouselData] = useState([
         {
             id: 1,
-            title: '蒋曦会见上海安徽商会会长洪清华一行',
-            image: 'https://www.huaibei.gov.cn/group1/M00/10/C1/CqET9GfauWSAGFZzAAaib4S804I839.jpg',
-            url: 'https://www.xinhuanet.com/',
-            description: '3月15日上午，市委书记汪华东前往濉溪县百善镇，宣讲全国两会精神，并调研乡村振兴工作。'
+            title: '习近平在贵州考察',
+            image: 'https://www.nppa.gov.cn/xxfb/tpxw/202503/W020250319360580460711.jpg',
+            url: 'https://www.news.cn/politics/leaders/20250322/1c9953ab30b044a4a91ab5f2a5aa07b6/c.html',
+            description: '习近平在贵州考察时强调，坚持以高质量发展统揽全局，在中国式现代化进程中展现贵州新风采。'
         },
         {
             id: 2,
-            title: '汪华东在濉溪县调研并宣讲全国两会精神',
-            image: 'https://www.huaibei.gov.cn/group1/M00/0F/EB/CqET9GfS7F6AdNyzAAWp2S1mNHo552.jpg',
-            url: 'https://www.xinhuanet.com/',
-            description: '3月15日上午，市委书记汪华东前往濉溪县百善镇，宣讲全国两会精神，并调研乡村振兴工作。'
+            title: '十四届全国人大三次会议在京闭幕',
+            image: 'https://www.ncac.gov.cn/xxfb/tpxw/202503/W020250312568565871259.jpg',
+            url: 'https://www.xinhuanet.com/politics/20250311/de2139ee251541b786dd3a9dfb16e399/c.html',
+            description: '十四届全国人大三次会议在京闭幕，批准政府工作报告、全国人大常委会工作报告等，通过关于修改代表法的决定　习近平签署主席令予以公布，习近平李强王沪宁蔡奇丁薛祥李希韩正等在主席台就座。'
+        },
+        {
+            id: 2,
+            title: '全国政协十四届三次会议在北京闭幕',
+            image: 'https://www.ncac.gov.cn/xxfb/tpxw/202503/W020250311397879799822.jpg',
+            url: 'https://www.news.cn/politics/20250310/212740fa626a4f2d8aa2c9e602117d24/c.html',
+            description: '3月10日上午，中国人民政治协商会议第十四届全国委员会第三次会议在北京人民大会堂闭幕。这是习近平、李强、蔡奇、丁薛祥、李希、韩正在主席台就座。'
         },
     ]);
+    const [govActiveKey, setGovActiveKey] = useState('1');
+    const [govNewsData, setGovNewsData] = useState();
+    const getGovNewsData = (key: string) => {
+        getGovNews({ type: key }).then((res: any) => {
+            setGovNewsData(res.data?.slice(0, 6));
+            setGovActiveKey(key);
+        })
+    };
+    useEffect(() => {
+        getGovNewsData(govActiveKey);
+    }, []);
+    const onGovChange = (key: string) => {
+        getGovNewsData(key);
+    }
 
     return (
         <div className={`commonPageStyle ${styles.homeContainer}`}>
@@ -128,12 +151,15 @@ const Home: React.FC = () => {
                         {/* 政务动态区域 */}
                         <div className="gov-news">
                             <Tabs
-                                defaultActiveKey="1"
+                                activeKey={govActiveKey}
+                                onChange={(key) => {
+                                    onGovChange(key);
+                                }}
                                 items={[
-                                    { key: '1', label: '政务要闻', children: <NewsList type="govNews" /> },
-                                    { key: '2', label: '公示公告', children: <NewsList type="notice" /> },
-                                    { key: '3', label: '本地动态', children: <NewsList type="local" /> },
-                                    { key: '4', label: '媒体聚焦', children: <NewsList type="media" /> }
+                                    { key: '1', label: '政务要闻', children: <NewsList data={govNewsData} /> },
+                                    { key: '2', label: '公示公告', children: <NewsList data={govNewsData} /> },
+                                    { key: '3', label: '本地动态', children: <NewsList data={govNewsData} /> },
+                                    { key: '4', label: '媒体聚焦', children: <NewsList data={govNewsData} /> }
                                 ]}
                             />
                         </div>
@@ -155,10 +181,10 @@ const Home: React.FC = () => {
                                             image: 'https://www.huaibei.gov.cn/group1/M00/04/15/CqET9GWTxqiAPEnoAACG0z-yxKQ829.png',
                                             title: 'banner3'
                                         },
-                                        {
-                                            image: 'https://www.huaibei.gov.cn/group1/M00/06/39/CqET9GYLZoSAJ1vkAAEXW6ctid0981.png',
-                                            title: 'banner4'
-                                        },
+                                        // {
+                                        //     image: 'https://www.huaibei.gov.cn/group1/M00/06/39/CqET9GYLZoSAJ1vkAAEXW6ctid0981.png',
+                                        //     title: 'banner4'
+                                        // },
                                         {
                                             image: 'https://www.huaibei.gov.cn/group1/M00/13/2A/CqET9GSQH96AKRjeAAD4DVBiuO0104.png',
                                             title: 'banner5'
@@ -180,7 +206,7 @@ const Home: React.FC = () => {
                             <div className="gov-info-section">
                                 <div className="section-header">
                                     <h3 className="title">
-                                        <span className="text-blue">关陕</span>
+                                        <span className="text-blue">版权</span>
                                         <span className="text-red">看</span>
                                     </h3>
                                 </div>
@@ -189,28 +215,28 @@ const Home: React.FC = () => {
                                     <h4 className="category-title">政府信息公开</h4>
                                     <div className="info-grid">
                                         <div className="info-item">
-                                            <i className="icon compass" />
-                                            <span>政府信息公开指南</span>
+                                            <i className="icon compass" style={{ width: 32, marginRight: 8 }} />
+                                            <span>版权纠纷调解</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon file-text" />
-                                            <span>政府信息公开制度</span>
+                                            <span>专家鉴定委员会</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon file-done" />
-                                            <span>法定主动公开内容</span>
+                                            <span>陕西省版权公共服务平台</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon calendar" />
-                                            <span>政府信息公开年报</span>
+                                            <span>知识产权保护智能工具系列介绍</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon form" />
-                                            <span>依申请公开</span>
+                                            <span>互联网知识产权电子证据存证平台</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon folder" />
-                                            <span>政策文件库</span>
+                                            <span>文创产业原创版权备案平台</span>
                                         </div>
                                     </div>
                                 </div>
@@ -220,12 +246,57 @@ const Home: React.FC = () => {
                                 <Tabs
                                     defaultActiveKey="1"
                                     items={[
-                                        { key: '1', label: '政府文件', children: <NewsFileList type="govNews" /> },
-                                        { key: '2', label: '政府会议', children: <NewsFileList type="notice" /> },
-                                        { key: '3', label: '政策解读', children: <NewsFileList type="local" /> },
-                                        { key: '4', label: '简明问答', children: <NewsFileList type="media" /> }
+                                        { key: '1', label: '政府文件', children: <NewsFileList data={govNewsData} /> },
+                                        { key: '2', label: '政府会议', children: <NewsFileList data={govNewsData} /> },
+                                        { key: '3', label: '政策解读', children: <NewsFileList data={govNewsData} /> },
+                                        { key: '4', label: '简明问答', children: <NewsFileList data={govNewsData} /> }
                                     ]}
                                 />
+                            </div>
+                            <div className="image-carousel">
+                                <div className="gov-info-section">
+                                    <div className="section-header">
+                                        <h3 className="title">
+                                            <span className="text-blue">友情链接</span>
+                                        </h3>
+                                    </div>
+                                    <div className="info-category">
+                                        <div className="info-grid">
+                                            <div className="info-item" onClick={() => window.open('http://www.nrta.gov.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>国家广播电视总局</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.ncac.gov.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>国家版权局</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.ccopyright.com.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>中国版权保护中心</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.csccn.org.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>中国版权协会</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.mcsc.com.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>中国音乐著作权协会</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.icsc1839.org.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>中国摄影著作权协会</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.cfca-c.org/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>中国电影著作权协会</span>
+                                            </div>
+                                            <div className="info-item" onClick={() => window.open('http://www.prccopyright.org.cn/', '_blank')}>
+                                                <i className="icon file-text" />
+                                                <span>中国文字著作权协会</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </Col>
@@ -233,10 +304,10 @@ const Home: React.FC = () => {
                     <Col span={10}>
                         {/* 右侧列内容 Col span={8} 部分 */}
                         <div className="right-section">
-                            {/* 关陕办标题 */}
+                            {/* 版权办标题 */}
                             <div className="section-header">
                                 <h3 className="title">
-                                    <span className="text-blue">关陕</span>
+                                    <span className="text-blue">版权</span>
                                     <span className="text-red">办</span>
                                 </h3>
                             </div>
@@ -248,7 +319,7 @@ const Home: React.FC = () => {
                                     items={[
                                         { key: '1', label: '个人办事', children: <ServiceList type="govNews" /> },
                                         { key: '2', label: '法人办事', children: <ServiceList type="notice" /> },
-                                        { key: '3', label: '部门办事', children: <ServiceList type="local" /> },
+                                        // { key: '3', label: '部门办事', children: <ServiceList type="local" /> },
                                         { key: '4', label: '热点服务', children: <ServiceList type="media" /> }
                                     ]}
                                 />
@@ -257,10 +328,10 @@ const Home: React.FC = () => {
                             {/* 陕事通办平台 */}
                             <div className="flex-box platform-section">
                                 <div className="platform-banner">
-                                    <img src="https://www.huaibei.gov.cn/_res/images-new/wst-ico.png" alt="陕事通办" />
+                                    <img src={zhengfulogo} alt="陕事通办" />
                                     <div className="platform-info">
                                         <h4>全国一体化在线政务服务平台</h4>
-                                        <h3>陕事通办 | 陕西市</h3>
+                                        <h3>陕事通办 | 陕西省</h3>
                                     </div>
                                 </div>
                                 <div className="stats-info">
@@ -276,7 +347,7 @@ const Home: React.FC = () => {
                                     items={[
                                         { key: '1', label: '民生领域服务', children: <MinServiceList type="govNews" /> },
                                         { key: '2', label: '集成服务', children: <MinServiceList type="notice" /> },
-                                        { key: '3', label: '阳关政务', children: <MinServiceList type="local" /> },
+                                        // { key: '3', label: '阳关政务', children: <MinServiceList type="local" /> },
                                         { key: '4', label: '营商服务', children: <MinServiceList type="media" /> }
                                     ]}
                                 />
@@ -285,16 +356,16 @@ const Home: React.FC = () => {
                             <div className="gov-info-section">
                                 <div className="section-header">
                                     <h3 className="title">
-                                        <span className="text-blue">关陕</span>
+                                        <span className="text-blue">版权</span>
                                         <span className="text-red">问</span>
                                     </h3>
                                 </div>
 
                                 <div className="info-category">
                                     <div className='flex-box info-category-right'>
-                                        <img src="https://www.huaibei.gov.cn/group1/M00/13/A0/rBIoG2PwM1WAeSj9AAASiapfltU874.png" alt="" />
+                                        <img src={zhengfulogo} alt="" />
                                         <div className='flex-box-center info-category-right-text'>
-                                            <div className='info-category-right-text-title'>陕西市12345政务服务便民热线</div>
+                                            <div className='info-category-right-text-title'>陕西省版权公共服务平台</div>
                                             <div className='flex-box info-category-right-text-content'>
                                                 <span>统一受理</span>
                                                 <span>统一督办</span>
@@ -305,15 +376,15 @@ const Home: React.FC = () => {
                                     <div className="info-grid">
                                         <div className="info-item">
                                             <i className="icon compass" />
-                                            <span>市长信箱</span>
+                                            <span>版权纠纷调解</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon file-text" />
-                                            <span>回应关切</span>
+                                            <span>专家鉴定委员会</span>
                                         </div>
                                         <div className="info-item">
                                             <i className="icon file-done" />
-                                            <span>在线访谈</span>
+                                            <span>知识产权保护智能工具</span>
                                         </div>
                                     </div>
                                 </div>
@@ -323,9 +394,9 @@ const Home: React.FC = () => {
                                 <Tabs
                                     defaultActiveKey="1"
                                     items={[
-                                        { key: '1', label: '市长信箱', children: <NewsMailList type="govNews" /> },
-                                        { key: '2', label: '12345热线', children: <NewsMailList type="notice" /> },
-                                        { key: '3', label: '政务新媒体', children: <NewsMailList type="local" /> },
+                                        { key: '1', label: '市长信箱', children: <NewsMailList data={govNewsData} /> },
+                                        { key: '2', label: '12345热线', children: <NewsMailList data={govNewsData} /> },
+                                        { key: '3', label: '政务新媒体', children: <NewsMailList data={govNewsData} /> },
                                     ]}
                                 />
                             </div>
@@ -334,7 +405,7 @@ const Home: React.FC = () => {
                                 <Tabs
                                     defaultActiveKey="1"
                                     items={[
-                                        { key: '1', label: '征集调查', children: <NewsSearchList type="govNews" /> },
+                                        { key: '1', label: '征集调查', children: <NewsSearchList data={govNewsData} /> },
                                     ]}
                                 />
                             </div>
@@ -402,31 +473,15 @@ const Home: React.FC = () => {
 };
 
 // 新闻列表组件
-const NewsList: React.FC<{ type: string }> = ({ type }) => {
+const NewsList: React.FC<{ data: any }> = ({ data }) => {
     const navigate = useNavigate();
     return (
         <List
             className="news-list"
             size="small"
-            dataSource={[
-                {
-                    id: 1,
-                    title: '多地推动金融加力支持民营企业发展',
-                    time: '2025-03-19'
-                },
-                {
-                    id: 2,
-                    title: '保持发展定力 增强发展信心（促进民营经济高质量发展）',
-                    time: '2025-03-19'
-                },
-                {
-                    id: 3,
-                    title: '“我国消费市场蕴含巨大发展机遇”',
-                    time: '2025-03-19'
-                }
-            ]}
-            renderItem={item => (
-                <List.Item className='flex-box-justify-between' onClick={() => navigate(`/detial/?newsType=${type}`)}>
+            dataSource={data}
+            renderItem={(item: any) => (
+                <List.Item className='flex-box-justify-between' onClick={() => navigate(`/detial/?newsType=${item.id}`)}>
                     <a>· {item.title}</a>
                     <a>{item.time}</a>
                 </List.Item>
@@ -435,26 +490,13 @@ const NewsList: React.FC<{ type: string }> = ({ type }) => {
     );
 };
 // 政府文件
-const NewsFileList: React.FC<{ type: string }> = ({ type }) => {
+const NewsFileList: React.FC<{ data: any }> = ({ data }) => {
     return (
         <List
             className="news-list"
             size="small"
-            dataSource={[
-                {
-                    title: '多地推动金融加力支持民营企业发展',
-                    time: '2025-03-19'
-                },
-                {
-                    title: '保持发展定力 增强发展信心（促进民营经济高质量发展）',
-                    time: '2025-03-19'
-                },
-                {
-                    title: '“我国消费市场蕴含巨大发展机遇”',
-                    time: '2025-03-19'
-                }
-            ]}
-            renderItem={item => (
+            dataSource={data}
+            renderItem={(item: any) => (
                 <List.Item className='flex-box-justify-between'>
                     <a href="#">· {item.title}</a>
                     <a href="#">{item.time}</a>
@@ -468,51 +510,39 @@ const ServiceList: React.FC<{ type: string }> = ({ type }) => {
     return <div className="service-grid">
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="icons/service-1.png" alt="就业创业" />
+                <img src="icons/service-1.png" alt="入会须知" />
             </div>
-            <span>就业创业</span>
+            <span>入会须知</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="icons/service-2.png" alt="抵押质押" />
+                <img src="icons/service-2.png" alt="版权登记" />
             </div>
-            <span>抵押质押</span>
+            <span>版权登记</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="icons/service-3.png" alt="职业资格" />
+                <img src="icons/service-3.png" alt="版权维权" />
             </div>
-            <span>职业资格</span>
+            <span>版权维权</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="icons/service-4.png" alt="优待抚恤" />
+                <img src="icons/service-4.png" alt="版权评估" />
             </div>
-            <span>优待抚恤</span>
+            <span>版权评估</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="icons/service-5.png" alt="规划建设" />
+                <img src="icons/service-5.png" alt="版权交易" />
             </div>
-            <span>规划建设</span>
+            <span>版权交易</span>
         </div>
         <div className="service-item">
             <div className="icon-wrapper">
-                <img src="icons/service-6.png" alt="证件办理" />
+                <img src="icons/service-6.png" alt="版权质押" />
             </div>
-            <span>证件办理</span>
-        </div>
-        <div className="service-item">
-            <div className="icon-wrapper">
-                <img src="icons/service-7.png" alt="交通出行" />
-            </div>
-            <span>交通出行</span>
-        </div>
-        <div className="service-item">
-            <div className="icon-wrapper">
-                <img src="icons/service-8.png" alt="旅游观光" />
-            </div>
-            <span>旅游观光</span>
+            <span>版权质押</span>
         </div>
     </div>;
 };
@@ -521,51 +551,38 @@ const MinServiceList: React.FC<{ type: string }> = ({ type }) => {
     return <div className="min-service-grid">
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="icons/min-1.png" alt="教育服务" />
+                <img src="icons/min-1.png" alt="版权申请" />
             </div>
-            <span>教育服务</span>
+            <span>版权申请</span>
         </div>
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="icons/min-2.png" alt="住房服务" />
+                <img src="icons/min-2.png" alt="版权登记" />
             </div>
-            <span>住房服务</span>
+            <span>版权登记</span>
         </div>
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="icons/min-3.png" alt="医疗服务" />
+                <img src="icons/min-3.png" alt="版权服务" />
             </div>
-            <span>医疗服务</span>
+            <span>版权服务</span>
         </div>
         <div className="min-service-item">
             <div className="icon-wrapper">
-                <img src="icons/min-4.png" alt="社保服务" />
+                <img src="icons/min-4.png" alt="版权服务" />
             </div>
-            <span>社保服务</span>
+            <span>版权服务</span>
         </div>
     </div>;
 };
 // 市长信箱
-const NewsMailList: React.FC<{ type: string }> = ({ type }) => {
+const NewsMailList: React.FC<{ data: any }> = ({ data }) => {
     return (
         <List
             className="news-list"
             size="small"
-            dataSource={[
-                {
-                    title: '多地推动金融加力支持民营企业发展',
-                    time: '2025-03-19'
-                },
-                {
-                    title: '保持发展定力 增强发展信心（促进民营经济高质量发展）',
-                    time: '2025-03-19'
-                },
-                {
-                    title: '“我国消费市场蕴含巨大发展机遇”',
-                    time: '2025-03-19'
-                }
-            ]}
-            renderItem={item => (
+            dataSource={data}
+            renderItem={(item: any) => (
                 <List.Item className='flex-box-justify-between'>
                     <a href="#">· {item.title}</a>
                     <a href="#">{item.time}</a>
@@ -575,26 +592,13 @@ const NewsMailList: React.FC<{ type: string }> = ({ type }) => {
     );
 };
 // 征集调查
-const NewsSearchList: React.FC<{ type: string }> = ({ type }) => {
+const NewsSearchList: React.FC<{ data: any }> = ({ data }) => {
     return (
         <List
             className="news-list"
             size="small"
-            dataSource={[
-                {
-                    title: '多地推动金融加力支持民营企业发展',
-                    time: '2025-03-19'
-                },
-                {
-                    title: '保持发展定力 增强发展信心（促进民营经济高质量发展）',
-                    time: '2025-03-19'
-                },
-                {
-                    title: '“我国消费市场蕴含巨大发展机遇”',
-                    time: '2025-03-19'
-                }
-            ]}
-            renderItem={item => (
+            dataSource={data}
+            renderItem={(item: any) => (
                 <List.Item className='flex-box-justify-between'>
                     <a href="#">· {item.title}</a>
                     <a href="#">{item.time}</a>

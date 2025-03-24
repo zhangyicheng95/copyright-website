@@ -3,16 +3,18 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { List, Pagination } from 'antd';
 import styles from './index.less';
 import { GetQueryObj } from '@/utils/utils';
+import { getNewsList } from '@/services/api';
 
 const menuItems = [
-    { title: '领导活动', key: 'leadership' },
-    { title: '政务要闻', key: 'government' },
-    { title: '重要转载', key: 'important' },
-    { title: '本地动态', key: 'local' },
-    { title: '媒体聚焦', key: 'media' },
-    { title: '图片新闻', key: 'photos' },
-    { title: '公示公告', key: 'notice' },
-    { title: '专题专栏', key: 'special' }
+    { title: '头条信息', key: 'topinfo' },
+    { title: '要闻信息', key: 'important' },
+    { title: '业界动态', key: 'industry' },
+    // { title: '图片新闻', key: 'photos' },
+    // { title: '视频新闻', key: 'videos' },
+    { title: '通知公告', key: 'notice' },
+    { title: '法律法规', key: 'laws' },
+    { title: '专题专栏', key: 'special' },
+    { title: '信息公开', key: 'public' }
 ];
 
 const Detial: React.FC = () => {
@@ -25,29 +27,17 @@ const Detial: React.FC = () => {
     const navigate = useNavigate();
     const [activeMenu, setActiveMenu] = useState<string>(params.type || menuItems[0].key);
     const [currentPage, setCurrentPage] = useState(1);
+    const [newsDataMap, setNewsDataMap] = useState<any>([]);
     const pageSize = 15; // 每页显示15条数据
 
     // 根据点击的类型，获取相应数据
-    useEffect(() => {
-        console.log(newsType);
-    }, [newsType]);
-
     // 模拟更多的新闻数据
-    const newsDataMap = {
-        leadership: Array(45).fill(null).map((_, index) => ({
-            id: `/${index + 1}`,
-            title: `市人大常委会机关举行第${index + 1}次秘书学习会`,
-            date: '2025-03-20',
-            url: `/${index + 1}`
-        })),
-        government: Array(30).fill(null).map((_, index) => ({
-            id: `/gov/${index + 1}`,
-            title: `我市召开2025年第${index + 1}次重点项目建设推进会`,
-            date: '2025-03-20',
-            url: `/gov/${index + 1}`
-        })),
-        // ... 其他类型的新闻数据
-    };
+    useEffect(() => {
+        getNewsList({ type: activeMenu }).then((res: any) => {
+            setNewsDataMap(res.data.list);
+            window.scrollTo(0, 0);
+        });
+    }, []);
 
     // 获取当前选中菜单的标题
     const currentMenuTitle = useMemo(() => {
@@ -56,19 +46,22 @@ const Detial: React.FC = () => {
 
     // 获取当前页的新闻列表
     const currentNewsList = useMemo(() => {
-        const allNews = newsDataMap[activeMenu as keyof typeof newsDataMap] || [];
+        const allNews = newsDataMap || [];
         const startIndex = (currentPage - 1) * pageSize;
         return allNews.slice(startIndex, startIndex + pageSize);
-    }, [activeMenu, currentPage]);
+    }, [newsDataMap, activeMenu, currentPage]);
 
     // 获取总数据条数
     const total = useMemo(() => {
         return newsDataMap[activeMenu as keyof typeof newsDataMap]?.length || 0;
-    }, [activeMenu]);
+    }, [newsDataMap, activeMenu]);
 
     const handleMenuClick = (key: string) => {
-        setActiveMenu(key);
-        setCurrentPage(1); // 切换菜单时重置页码
+        getNewsList({ type: key }).then((res: any) => {
+            setNewsDataMap(res.data.list);
+            setActiveMenu(key);
+            setCurrentPage(1); // 切换菜单时重置页码
+        });
     };
 
     const handleNewsClick = (id: string) => {
@@ -105,7 +98,7 @@ const Detial: React.FC = () => {
                 <List
                     className="newsList"
                     dataSource={currentNewsList}
-                    renderItem={item => (
+                    renderItem={(item: any) => (
                         <List.Item
                             className="newsItem"
                         >
